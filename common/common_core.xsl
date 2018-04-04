@@ -1155,7 +1155,6 @@ of this software, even if advised of the possibility of such damage.
     <xsl:copy-of select="."/>
   </xsl:template>
 
-
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element head in plain mode</desc>
   </doc>
@@ -1172,7 +1171,16 @@ of this software, even if advised of the possibility of such damage.
       <xsl:apply-templates mode="plain"/>
   </xsl:template>
   <xsl:template match="tei:note" mode="plain"/>
-  <xsl:template match="tei:app" mode="plain"/>
+  <xsl:template match="tei:app" mode="plain">
+    <xsl:choose>
+      <xsl:when test="tei:lem">
+	<xsl:apply-templates mode="plain" select="tei:lem"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-templates mode="plain" select="tei:rdg[1]"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
   <xsl:template match="tei:pb" mode="plain"/>
   <xsl:template match="tei:lb" mode="plain">
     <xsl:choose>
